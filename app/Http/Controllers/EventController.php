@@ -18,7 +18,7 @@ class EventController extends Controller
     {
         $today = Carbon::today();
         $events = Event::query()
-            ->whereDate('start_Date', '>=', $today)
+            ->whereDate('start_date', '>=', $today)
             ->orderBy('start_date')
             ->paginate(10);
 
@@ -136,7 +136,7 @@ class EventController extends Controller
     public function past()
     {
         $today = Carbon::today();
-        $events = Event::query()->whereDate('start_Date', '<', $today)
+        $events = Event::query()->whereDate('start_date', '<', $today)
             ->orderByDesc('start_date')
             ->paginate(10);
 
