@@ -15,7 +15,9 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = Event::query()->orderBy('start_date')->paginate(10);
+
+        return view('manager.events.index', compact('events'));
     }
 
     /**
@@ -25,7 +27,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('manager.events.create');
     }
 
     /**
