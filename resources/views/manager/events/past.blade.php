@@ -50,7 +50,7 @@
                                         </td>
                                         <td class="px-4 py-3">{{ $event->start_date }}</td>
                                         <td class="px-4 py-3">{{ $event->end_date }}</td>
-                                        <td class="px-4 py-3">後程</td>
+                                        <td class="px-4 py-3">{{ $event->reservedPeople }}</td>
                                         <td class="px-4 py-3">{{ $event->max_people }}</td>
                                         <td class="px-4 py-3">{{ $event->is_visible }}</td>
                                     </tr>

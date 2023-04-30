@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Event extends Model
 {
@@ -14,6 +16,17 @@ class Event extends Model
     protected $guarded = [
         'id',
     ];
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'reservations')
+            ->withPivot('id', 'number_of_people', 'canceled_date');
+    }
 
     protected function eventDate(): Attribute
     {
@@ -40,6 +53,13 @@ class Event extends Model
     {
         return new Attribute(
             get: fn () => Carbon::parse($this->end_date)->format('H時i分')
+        );
+    }
+
+    protected function reservedPeople(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->reservations()->whereNull('canceled_date')->sum('number_of_people')
         );
     }
 }
