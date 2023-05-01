@@ -18,7 +18,12 @@ class ReservationController extends Controller
     {
         $event = Event::query()->findOrFail($id);
 
-        return view('event-detail', compact('event'));
+        $isReserved = $event->reservations
+            ->where('user_id', '=', Auth::id())
+            ->where('canceled_date', '=', null)
+            ->first();
+
+        return view('event-detail', compact('event', 'isReserved'));
     }
 
     public function reserve(Request $request)
